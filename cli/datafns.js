@@ -18,7 +18,7 @@ const crypto = require('crypto');
 
 const makeId = ds => {
     const h = crypto.createHash('sha256');
-    h.write(ds.query);
+    h.write(ds.query || '');
     if (ds.queryParameters) {
         if (ds.queryParameters.earliest) {
             h.write(ds.queryParameters.earliest);
