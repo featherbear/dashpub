@@ -82,8 +82,13 @@ async function initNewProject() {
     await fs.mkdir(destFolder);
 
     await fs.copy(path.join(srcFolder, 'template'), destFolder, { recursive: true });
-    const copyToDest = (p, opts) => fs.copy(path.join(srcFolder, p), path.join(destFolder, p), opts);
-    await copyToDest('yarn.lock');
+    
+    /**
+      * template/yarn.lock exists within the template directory, so it shouldn't need to be explicitly copied
+      * Also, this function tries to copy from ./yarn.lock instead of ./template/yarn.lock
+      */
+    // const copyToDest = (p, opts) => fs.copy(path.join(srcFolder, p), path.join(destFolder, p), opts);
+    // await copyToDest('yarn.lock');
 
     await updatePackageJson({ folderName, version: '1.0.0', projectName, splunkdUrl, splunkdUser, selectedDashboards }, { destFolder });
     await writeDotenv({ splunkdUrl, splunkdUser, splunkdPassword }, { destFolder });
